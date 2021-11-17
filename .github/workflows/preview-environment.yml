@@ -1,0 +1,97 @@
+name: Preview Environment
+on:
+  pull_request:
+    types: [labeled, unlabeled, synchronize, closed]
+    branches:
+      - develop
+
+env:
+  CI: true
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: 'us-east-1'
+  PULL_NUMBER: ${{ github.event.number }}
+  GITHUB_TOKEN: ${{ github.token }}
+  CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+
+jobs:
+  provision:
+    name: Provision
+    if: ${{ github.event.action == 'labeled' && github.event.label.name == 'preview' && github.event.pull_request.state == 'open' || github.event.action == 'synchronize' && contains(github.event.pull_request.labels.*.name, 'preview') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+
+      - name: Login to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Create cloudflare tunnel
+        run: cd scripts/preview && yarn && yarn tunnel
+
+      - name: Build images
+        run: docker build -t=app .
+
+      - name: Tag and Push images
+        id: tag-push-images
+        env:
+          ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+          ECR_REPOSITORY: todo_your_repository
+        run: |
+          IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY:${GITHUB_SHA:0:7}
+
+          docker tag app:latest $IMAGE
+          docker push $IMAGE          
+          echo "::set-output name=app::$IMAGE"
+
+      - name: Render Task Definition
+        id: render-task-definition
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: app
+          image: ${{ steps.tag-push-images.outputs.app }}
+
+      - name: Register task definition
+        id: register-task-definition
+        run: |
+          TASK_DEFINITION_PATH=${{ steps.render-task-definition.outputs.task-definition }}
+          TASK_DEFINITION_ARN=$(aws ecs register-task-definition --cli-input-json file://$TASK_DEFINITION_PATH --query "taskDefinition.taskDefinitionArn" --no-cli-pager | tr -d '"')
+
+          echo "::set-output name=arn::$TASK_DEFINITION_ARN"
+
+      - name: Provision Preview Environment
+        run: cd scripts/preview && yarn provision --task-def-arn ${{ steps.register-task-definition.outputs.arn }}
+
+  destroy:
+    name: Destroy
+    if: ${{ github.event.action == 'unlabeled' && github.event.label.name == 'preview' || github.event.action == 'closed' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+
+      - name: Destroy Preview Environment
+        run: cd scripts/preview && yarn && yarn destroy
