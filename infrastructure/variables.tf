@@ -5,11 +5,11 @@ variable "region" {
 variable "vpc_id" {
   type = string
   description = "VPC id"
-  default = "todo_vpc"
+  default = "todo-vpc"
 }
 
 variable "subnet_ids" {
   type = list
   description = "List of subnet ids"
-  default = ["todo_subnet-1", "todo_subnet-2"]
+  default = ["todo-subnet-1", "todo-subnet-2"]
 }

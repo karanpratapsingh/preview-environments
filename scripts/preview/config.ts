@@ -2,7 +2,7 @@ import * as env from 'env-var';
 
 const config = {
   // Domain for Cloudflare access policy
-  domain: '<todo_your_domain>',
+  domain: '<todo-your-domain>',
   aws: {
     region: 'us-east-1',
   },
@@ -13,23 +13,23 @@ const config = {
   },
   vpc: {
     securityGroups: {
-      filter: '<todo_your_security_group_tag>',
+      filter: '<todo-your-security-group-tag>',
     },
     subnets: {
-      filter: '<todo_your_subnet_tag>',
+      filter: '<todo-your-subnet-tag>',
     },
   },
   ecs: {
-    cluster: '<todo_your_ecs_cluster_name>',
+    cluster: '<todo-your-ecs-cluster-name>',
   },
   cloudflare: {
     path: './outputs/tunnel',
-    auth_email: '<todo_your_cloudflare_email>',
+    auth_email: '<todo-your-cloudflare-email>',
     api_key: env.get('CLOUDFLARE_API_KEY').required().asString(),
     token: env.get('CLOUDFLARE_API_TOKEN').required().asString(),
     accountId: env.get('CLOUDFLARE_ACCOUNT_ID').required().asString(),
     zoneId: env.get('CLOUDFLARE_ZONE_ID').required().asString(),
-    domain: '<todo_your_cloudflare_domain>',
+    domain: '<todo-your-cloudflare-domain>',
   },
 };
 

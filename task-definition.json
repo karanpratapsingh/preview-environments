@@ -3,8 +3,8 @@
   "cpu": "4096",
   "memory": "8192",
   "networkMode": "awsvpc",
-  "taskRoleArn": "todo_taskRoleArn",
-  "executionRoleArn": "todo_executionRoleArn",
+  "taskRoleArn": "todo-taskRoleArn",
+  "executionRoleArn": "todo-executionRoleArn",
   "containerDefinitions": [
     {
       "name": "app",

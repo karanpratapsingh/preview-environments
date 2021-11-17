@@ -49,7 +49,7 @@ jobs:
         id: tag-push-images
         env:
           ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
-          ECR_REPOSITORY: todo_your_repository
+          ECR_REPOSITORY: todo-your-repository
         run: |
           IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY:${GITHUB_SHA:0:7}
 
