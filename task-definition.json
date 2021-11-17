@@ -1,5 +1,5 @@
 {
-  "family": "todo_xyz",
+  "family": "app-task-definition",
   "cpu": "4096",
   "memory": "8192",
   "networkMode": "awsvpc",
@@ -22,7 +22,7 @@
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "/ecs/todo_awslogs_groups",
+          "awslogs-group": "/ecs/app-log-group",
           "awslogs-region": "us-east-1",
           "awslogs-stream-prefix": "ecs"
         }

@@ -68,5 +68,5 @@ resource "aws_ecs_cluster" "cluster" {
 }
 
 resource "aws_cloudwatch_log_group" "log_group" {
-  name = "/ecs/ecs-log-group"
+  name = "/ecs/app-log-group"
 }
