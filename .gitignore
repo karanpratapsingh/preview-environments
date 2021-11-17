@@ -1,0 +1,94 @@
+.env
+.eslintcache
+logs
+logfile
+*.log
+*logfile
+.ignore
+.DS_Store
+*DS_Store
+
+**/server.zip
+.docker-sync
+
+*.tsbuildinfo
+*node_modules
+*yarn-debug.log*
+*yarn-error.log*
+*hostname.ts
+*dist/
+*#
+*.unison.tmp
+
+packages/server/tmp/*
+packages/server/_git_commit.js
+packages/server/config/db_base_dump.sql
+packages/web/build/
+packages/web/frontend.zip
+
+coverage/
+.test_results/
+
+deploy-by-*
+
+#Intellij IDEA Files
+.idea/*
+.prettierrc.json
+
+*.dll
+*.exe
+.DS_Store
+modules-dev/
+/pkg/
+website/.vagrant
+website/.bundle
+website/build
+website/node_modules
+.vagrant/
+*.backup
+*.log
+*.bak
+*~
+.*.swp
+.idea
+*.iml
+*.test
+*.iml
+
+website/vendor
+
+# Test exclusions
+!command/test-fixtures/**/*.tfstate
+!command/test-fixtures/**/.terraform/
+
+# https://github.com/github/gitignore/blob/master/Terraform.gitignore
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+
+# Exclude all .tfvars files, which are likely to contain sentitive data, such as
+# password, private keys, and other secrets. These should not be part of version 
+# control as they are data points which are potentially sensitive and subject 
+# to change depending on the environment.
+#
+*.tfvars
+
+# Ignore override files as they are usually used to override resources locally and so
+# are not checked in
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+*tfplan*
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
