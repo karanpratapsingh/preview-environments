@@ -1,0 +1,33 @@
+{
+  "family": "todo_xyz",
+  "cpu": "4096",
+  "memory": "8192",
+  "networkMode": "awsvpc",
+  "taskRoleArn": "todo_taskRoleArn",
+  "executionRoleArn": "todo_executionRoleArn",
+  "containerDefinitions": [
+    {
+      "name": "app",
+      "image": "PLACEHOLDER_IMAGE", 
+      "portMappings": [
+        {
+          "hostPort": 4000,
+          "protocol": "tcp",
+          "containerPort": 4000
+        }
+      ],
+      "linuxParameters": {
+        "initProcessEnabled": true
+      },
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/todo_awslogs_groups",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ],
+  "requiresCompatibilities": ["FARGATE"]
+}
