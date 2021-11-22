@@ -2,7 +2,7 @@
 
 On-demand preview environment is a strategy to spin up temporary infrastructure with isolated environments on the fly. This helps us open discussion with other teams such as product and QA at an early stage of the release process and improves cross-team visibility.
 
-You can read about it in detail **_[here]()_**
+***You can read about it in detail [here]()***
 
 ## 🏭 Architecture
 
