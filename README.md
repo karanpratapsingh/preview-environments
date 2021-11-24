@@ -4,6 +4,8 @@ On-demand preview environment is a strategy to spin up temporary infrastructure 
 
 ***You can read about it in detail [here]()***
 
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/karanps)
+
 ## 🏭 Architecture
 
 Our architecture is pretty simple and intuitive, I've divided the whole architecture into three sections:
@@ -62,6 +64,3 @@ Hopefully, this will bring some collaboration with the Product, QA, Solutions te
 ## 🔐 License 
 
 * See [LICENSE](/LICENSE) (MIT)
-
-
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/karanps)
