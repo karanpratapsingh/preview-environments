@@ -4,7 +4,7 @@ const config = {
   // Domain for Cloudflare access policy
   domain: '<todo-your-domain>',
   aws: {
-    region: 'us-east-1',
+    region: env.get('AWS_DEFAULT_REGION').required().asString(),
   },
   github: {
     // Token and Pull request no. will be available in Github Action
