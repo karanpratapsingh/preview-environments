@@ -44,7 +44,7 @@ resource "aws_ecs_task_definition" "task_definition" {
 # Security group
 resource "aws_security_group" "security_group" {
   name   = "app-security-group"
-  vpc_id = var.vpc_id
+  vpc_id = "${aws_vpc.vpc-preview.id}"
 
   ingress {
     from_port   = 0
