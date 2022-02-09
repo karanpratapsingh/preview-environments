@@ -151,7 +151,7 @@ async function getRunningTask(slug: string): Promise<AWS.ECS.Task | undefined> {
     desiredStatus: 'RUNNING',
   };
 
-  const tasks: any = await Clients.ecs.listTasks(params).promise();
+  const tasks: AWS.ECS.ListTasksResponse = await Clients.ecs.listTasks(params).promise();
 
   if (!tasks.taskArns) {
     throw new Error('[getRunningTask]: tasks arns does not exist');
